@@ -9,28 +9,31 @@ import css from "./page.module.css"
 import SearchBox from "../../../../components/SearchBox/SearchBox";
 import Pagination from "../../../../components/Pagination/Pagination";
 import NoteList from "../../../../components/NoteList/NoteList";
-import NoteForm from "../../../../components/NoteForm/NoteForm";
-import Modal from "../../../../components/Modal/Modal";
+import { useRouter } from "next/navigation";
 
 export default function NotesClient({ tag }: NotesClientProps) {
-    const [search, setSearch] = useState("");
-    const [debouncedSearch] = useDebounce(search, 500);
-    const [page, setPage] = useState(1);
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch] = useDebounce(search, 500);
+  const [page, setPage] = useState(1);
+  const router = useRouter();
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["notes", page, debouncedSearch, tag],
-        queryFn: () => fetchNotes(debouncedSearch, page, tag ?? undefined),
-        placeholderData: (prev) => prev,
-    }); 
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["notes", page, debouncedSearch, tag],
+    queryFn: () => fetchNotes(debouncedSearch, page, tag ?? undefined),
+    placeholderData: (prev) => prev,
+  }); 
     
-    const notes = data?.notes ?? [];
-    const totalPages = data?.totalPages ?? 1;
+  const notes = data?.notes ?? [];
+  const totalPages = data?.totalPages ?? 1;
 
-    const handleSearchChange = (value: string) => {
-        setSearch(value);
-        setPage(1);
-    };
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setPage(1);
+  };
+  
+  const handleCreateNote = () => {
+    router.push("/notes/action/create");
+  };
   
   return (
     <div className={css.app}>
@@ -43,17 +46,14 @@ export default function NotesClient({ tag }: NotesClientProps) {
                   onChange={setPage}
               />
           )}
-          <button className={css.button} onClick={() => setIsModalOpen(true)}>Create notes</button>
+          <button className={css.button} onClick={handleCreateNote}>
+            Create note
+          </button>
       </header>
 
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error loading notes</p>}
       <NoteList notes={notes} />
-      {isModalOpen && (
-        <Modal onClose={() => setIsModalOpen(false)}>
-          <NoteForm onCancel={() => setIsModalOpen(false)}/>
-        </Modal>
-      )}
     </div>
   );
 }
