@@ -13,8 +13,24 @@ const roboto = Roboto({
 })
 
 export const metadata: Metadata = {
-  title: "NoteHub",
-  description: "A simple note management app built with Next.js and React Query",
+  title: "Note Hub",
+  description: "An app to create and store your notes",
+  icons: {
+    icon: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+  },
+  openGraph: {
+    title: "Note Hub",
+    description: "An app to create and store your notes",
+    url: "https://08-zustand-sigma-five.vercel.app/",
+    images: [
+      {
+        url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Note Hub - word with white letters on light blue background",
+      },
+    ],
+  }
 };
 
 export default function RootLayout({

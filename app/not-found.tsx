@@ -1,23 +1,24 @@
-"use client";
+import { Metadata } from "next";
+import NotFoundPage from "./not-found-page";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import css from "./page.module.css";
+export const metadata: Metadata = {
+    title: "404 - Error",
+    description: "Page not found",
+    openGraph: {
+        title: "404 - Error",
+        description: "Page not found",
+        url: "https://08-zustand-sigma-five.vercel.app/",
+        images: [{
+            url: 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg',
+            width: 1200,
+            height: 630,
+            alt: "Note Hub - word with white letters on light blue background",
+        }]
+    }
+}
 
 const NotFound = () => {
-  const router = useRouter();
+    return <NotFoundPage />
+}
 
-  useEffect(() => {
-    const timer = setTimeout(() => router.push('/'), 3000);
-    return () => clearTimeout(timer);
-  }, [router]);
-
-  return (
-    <div>
-        <h1 className={css.title}>404 - Page not found</h1>
-        <p className={css.description}>Sorry, the page you are looking for does not exist.</p>
-    </div>
-  );
-};
-
-export default NotFound
+export default NotFound;
