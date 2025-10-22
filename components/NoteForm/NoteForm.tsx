@@ -6,12 +6,12 @@ import { createNote } from "../../services/noteService";
 import type { NoteTag } from "../../types/note";
 import { CreateNotePost } from "../../lib/api";
 import { useRouter } from "next/navigation";
-import { NoteDraft } from "@/lib/store/noteStore";
+import { useNoteDraft } from "@/lib/store/noteStore";
 
 export default function NoteForm() {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { draft, setDraft, clearDraft } = NoteDraft();
+  const { draft, setDraft, clearDraft } = useNoteDraft();
 
   const draftChange = (
     event: React.ChangeEvent<

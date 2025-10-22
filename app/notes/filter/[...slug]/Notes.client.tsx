@@ -23,9 +23,7 @@ export default function NotesClient({ tag }: NotesClientProps) {
     placeholderData: (prev) => prev,
   }); 
     
-  const notes = data?.notes ?? [];
   const totalPages = data?.totalPages ?? 1;
-
   const handleSearchChange = (value: string) => {
     setSearch(value);
     setPage(1);
@@ -38,22 +36,13 @@ export default function NotesClient({ tag }: NotesClientProps) {
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
-          <SearchBox value={search} onChange={handleSearchChange} />
-          {totalPages > 1 && (
-              <Pagination
-                  totalPages={totalPages}
-                  page={page}
-                  onChange={setPage}
-              />
-          )}
-          <button className={css.button} onClick={handleCreateNote}>
-            Create note
-          </button>
+          <SearchBox value={search} onChange={handleSearchChange}/>
+          {data && data?.totalPages > 1 && <Pagination totalPages={totalPages  ?? 0} page={page} onChange={setPage}/>}
+          <button className={css.button} onClick={handleCreateNote}>Create note</button>
       </header>
-
       {isLoading && <p>Loading...</p>}
       {isError && <p>Error loading notes</p>}
-      <NoteList notes={notes} />
+      {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
     </div>
   );
 }

@@ -15,7 +15,7 @@ const initialDraft: CreateNotePost = {
   tag: 'Todo' as NoteTag,
 };
 
-export const NoteDraft = create<NoteDraft>()(
+export const useNoteDraft = create<NoteDraft>()(
   persist<NoteDraft>(
     (set) => ({
       draft: initialDraft,
